@@ -1,0 +1,90 @@
+services:
+  - type: web
+    name: metecho
+    env: python
+    plan: starter
+    buildCommand: .render/build.sh
+    startCommand: ./start-server.sh
+    autoDeploy: true
+    envVars:
+      - fromGroup: metecho-env
+      - key: DATABASE_URL
+        fromDatabase:
+          name: metecho_db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: metecho-redis
+          property: connectionString
+  - type: worker
+    name: metecho-worker
+    env: python
+    plan: starter
+    buildCommand: .render/build.sh
+    startCommand: honcho start -f Procfile_worker_all
+    autoDeploy: true
+    envVars:
+      - fromGroup: metecho-env
+      - key: DATABASE_URL
+        fromDatabase:
+          name: metecho_db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: metecho-redis
+          property: connectionString
+  - type: redis
+    name: metecho-redis
+    plan: starter
+    maxmemoryPolicy: noeviction
+    ipAllowList: []
+
+databases:
+  - name: metecho_db
+    databaseName: metecho_db
+    user: metecho_db
+    plan: starter
+
+envVarGroups:
+- name: metecho-env
+  envVars:
+    - key: BUILD_ENV
+      value: production
+    - key: DB_ENCRYPTION_KEY
+      sync: false
+    - key: DEFAULT_FROM_EMAIL
+      value: no-reply@muselab.com
+    - key: DEVHUB_USERNAME
+      sync: false
+    - key: DJANGO_ADMIN_URL
+      generateValue: true
+    - key: DJANGO_HASHID_SALT
+      generateValue: true
+    - key: DJANGO_SECRET_KEY
+      generateValue: true
+    - key: DJANGO_SETTINGS_MODULE
+      value: config.settings.production
+    - key: GITHUB_APP_ID
+      sync: false
+    - key: GITHUB_APP_KEY
+      sync: false
+    - key: GITHUB_CLIENT_ID
+      sync: false
+    - key: GITHUB_CLIENT_SECRET
+      sync: false
+    - key: GITHUB_HOOK_SECRET
+      generateValue: true
+    - key: PYTHON_VERSION
+      value: 3.11.2
+    - key: SFDX_CLIENT_CALLBACK_URL
+      sync: false
+    - key: SFDX_CLIENT_ID
+      sync: false
+    - key: SFDX_CLIENT_SECRET
+      sync: false
+    - key: SFDX_HUB_KEY
+      sync: false
+    - key: WEB_CONCURRENCY
+      value: 4
