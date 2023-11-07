@@ -55,7 +55,7 @@ envVarGroups:
     - key: DB_ENCRYPTION_KEY
       sync: false
     - key: DEFAULT_FROM_EMAIL
-      value: no-reply@muselab.com
+      value: thomas@opentent.com
     - key: DEVHUB_USERNAME
       sync: false
     - key: DJANGO_ADMIN_URL
