@@ -48,3 +48,5 @@ echo "################################################"
 echo "# Collecting Django static resources"
 echo "################################################"
 python manage.py collectstatic --no-input
+
+run ./manage.py promote_superuser TGOpen -a Metecho render test
