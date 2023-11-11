@@ -2,7 +2,7 @@ services:
   - type: web
     name: metecho
     env: python
-    plan: free
+    plan: starter
     buildCommand: .render/build.sh
     startCommand: ./start-server.sh
     autoDeploy: true
@@ -20,7 +20,7 @@ services:
   - type: worker
     name: metecho-worker
     env: python
-    plan: free
+    plan: starter
     buildCommand: .render/build.sh
     startCommand: honcho start -f Procfile_worker_all
     autoDeploy: true
@@ -37,7 +37,7 @@ services:
           property: connectionString
   - type: redis
     name: metecho-redis
-    plan: free
+    plan: starter
     maxmemoryPolicy: noeviction
     ipAllowList: []
 
@@ -45,7 +45,7 @@ databases:
   - name: metecho_db
     databaseName: metecho_db
     user: metecho_db
-    plan: free
+    plan: starter
 
 envVarGroups:
 - name: metecho-env
