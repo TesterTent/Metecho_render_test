@@ -1,0 +1,2 @@
+worker: python manage.py rqworker default
+scheduler: python manage.py rqscheduler
