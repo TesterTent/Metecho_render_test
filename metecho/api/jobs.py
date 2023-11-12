@@ -820,7 +820,7 @@ def refresh_github_organizations_for_user(user: User):
         user.finalize_refresh_organizations(error=error)
         tb = traceback.format_exc()
         logger.error(tb)
-        logger.info("the ghuser is :: "gh_user)
+        logger.info("the ghuser is :: ",gh_user)
         logger.info(orgs)
         raise
     else:
